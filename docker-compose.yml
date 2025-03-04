@@ -1,0 +1,26 @@
+services:
+  financial-planner:
+    build: .
+    environment:
+      - DISPLAY=host.docker.internal:0
+      - USE_LOGIN=1
+    volumes:
+      - .:/app
+      - ./financial_planner.db:/app/financial_planner.db
+      - ./logs:/app/logs
+      - ~/.docker-keyring:/root/.local/share/keyring  # Share keyring for biometric auth
+    restart: unless-stopped
+
+  # X11 forwarding service for GUI on macOS and Windows
+  x11:
+    image: jess/x11-bridge
+    container_name: x11-bridge
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $HOME/.Xauthority:/root/.Xauthority
+    ports:
+      - "6000:6000"
+    environment:
+      - DISPLAY=host.docker.internal:0
+    restart: unless-stopped
+    network_mode: "host"

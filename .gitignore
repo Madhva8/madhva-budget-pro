@@ -1,0 +1,54 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS specific
+.DS_Store
+*.command\ alias
+*.icns
+
+# Local databases and logs
+financial_planner.db
+*.db-journal
+logs/*.log
+src/logs/
+src/backups/
+
+# Build artifacts
+*.spec
+*_build.sh
+*_build.bat
+setup/
+
+# Unused files
+check_*.command
+debug_*.py
+fix_*.py
+create_*.command
+create_*.sh
+run_*.command
+run_*.sh
+test_*.py
+try_*.command
+
+# Exclude real database files but include the sample
+financial_planner.db
+financial_planner.db.bak
+!financial_planner.db.sample
