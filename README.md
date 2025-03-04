@@ -2,7 +2,8 @@
 
 A comprehensive personal finance management application with modern UI, transaction tracking, budget planning, and financial analytics. Featuring automatic bank statement parsing, secure authentication, and a beautiful macOS-optimized interface.
 
-![Madhva Budget Pro](docs/screenshot.png)
+<!-- Add screenshot here once available -->
+<!-- ![Madhva Budget Pro](docs/screenshot.png) -->
 
 ## Key Features
 
