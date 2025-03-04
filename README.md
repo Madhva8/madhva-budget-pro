@@ -1,9 +1,11 @@
 # Madhva Budget Pro
 
-A comprehensive personal finance management application with modern UI, transaction tracking, budget planning, and financial analytics. Featuring automatic bank statement parsing, secure authentication, and a beautiful macOS-optimized interface.
+A comprehensive personal finance management application specifically designed for Sparkasse bank customers in Germany. Features automatic parsing of German Sparkasse bank statements with English translation, AI-powered transaction categorization, budgeting tools, and rich financial analytics, all within a beautiful macOS-optimized interface.
 
 <!-- Add screenshot here once available -->
 <!-- ![Madhva Budget Pro](docs/screenshot.png) -->
+
+> **Specialized for Sparkasse Bank Customers**: Upload your Sparkasse PDF statements in German and view your finances in English with automatic translation and smart categorization
 
 ## Key Features
 
@@ -19,10 +21,11 @@ A comprehensive personal finance management application with modern UI, transact
 - **Income vs. Expenses**: Track your cash flow with detailed comparisons
 - **Custom Reports**: Generate financial reports based on various parameters
 
-### 🤖 Automation
-- **PDF Statement Import**: Automatically parse bank statements (supports Sparkasse format)
-- **Transaction Categorization**: Smart categorization of imported transactions
-- **Subscription Detection**: Identify and track recurring payments and subscriptions
+### 🤖 Automation & AI
+- **Sparkasse PDF Import**: Automatically parse German Sparkasse bank statements
+- **German-to-English Translation**: View your German bank statements in English
+- **AI-Powered Categorization**: Smart categorization of transactions using AI algorithms
+- **Subscription Detection**: AI identifies and tracks recurring payments and subscriptions
 - **Batch Operations**: Efficiently manage multiple transactions at once
 
 ### 🔐 Security
@@ -154,13 +157,16 @@ The application features a secure login system to protect your financial data.
 - **Frontend**: PySide6/PyQt5 for the UI
 - **Backend**: Pure Python with SQLite database
 - **Analytics**: Matplotlib for visualization, Pandas for data processing
-- **PDF Processing**: PDFPlumber for bank statement parsing
+- **PDF Processing**: PDFPlumber for Sparkasse statement parsing
+- **Natural Language Processing**: AI modules for transaction categorization
+- **Translation**: German to English translation for bank statements
 
 ### System Requirements
 - **Operating Systems**: macOS 10.14+ (optimized), Windows 10+, Linux
 - **Python**: 3.9 or newer
 - **Memory**: 4GB RAM recommended
 - **Storage**: 200MB + space for your financial data
+- **Language Support**: English UI with German bank statement processing
 
 ## License
 
