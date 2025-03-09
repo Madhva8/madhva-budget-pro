@@ -15,12 +15,13 @@ For the simplest launch experience, use the provided launcher scripts:
 ### Windows
 
 1. **Open File Explorer** and navigate to your Madhva Budget Pro folder
-2. **Double-click** `start_app.bat` (if available) or run `python src/main_pyside6.py` from Command Prompt
+2. **Double-click** `start_app.bat`
+3. The script will automatically check for Python, install dependencies if needed, and even create a desktop shortcut
 
 ### Linux
 
 1. **Open Terminal** in your Madhva Budget Pro folder
-2. Run `./SimpleStart.command` or `python3 src/main_pyside6.py`
+2. Run `./start_app.sh`
 
 ## Troubleshooting
 
@@ -69,10 +70,14 @@ If you see database errors:
 
 ### Windows
 
+### Automatic Method (Recommended)
+The `start_app.bat` script will automatically create a desktop shortcut for you the first time you run it.
+
+### Manual Method
 1. Right-click on your Desktop and select New > Shortcut
 2. In the location field, enter:
    ```
-   cmd.exe /c "cd /d C:\path\to\Financial_planner && python src\main_pyside6.py"
+   C:\path\to\Financial_planner\start_app.bat
    ```
 3. Name the shortcut "Madhva Budget Pro" and click Finish
 

@@ -149,6 +149,8 @@ chmod +x SimpleStart.command
 start_app.bat
 ```
 
+See [WINDOWS_GUIDE.md](WINDOWS_GUIDE.md) for detailed Windows installation instructions.
+
 #### Linux Launch
 
 ```bash
