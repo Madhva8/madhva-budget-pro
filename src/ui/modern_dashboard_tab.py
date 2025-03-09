@@ -17,7 +17,41 @@ matplotlib.use('QtAgg')  # Use generic QtAgg backend which works with both PySid
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+from matplotlib import rcParams
 import numpy as np
+
+# Set up matplotlib for dark mode compatibility
+def configure_matplotlib_for_theme(is_dark_mode=False):
+    """Configure matplotlib colors based on light or dark theme."""
+    if is_dark_mode:
+        # Dark mode settings
+        rcParams['text.color'] = 'white'
+        rcParams['axes.facecolor'] = 'none'
+        rcParams['axes.edgecolor'] = '#666666'
+        rcParams['axes.labelcolor'] = 'white'
+        rcParams['xtick.color'] = 'white'
+        rcParams['ytick.color'] = 'white'
+        rcParams['grid.color'] = '#444444'
+        rcParams['figure.facecolor'] = 'none'
+        rcParams['savefig.facecolor'] = 'none'
+        rcParams['axes.grid'] = True
+        rcParams['grid.alpha'] = 0.3
+    else:
+        # Light mode settings
+        rcParams['text.color'] = 'black'
+        rcParams['axes.facecolor'] = 'none'
+        rcParams['axes.edgecolor'] = '#E5E5E5'
+        rcParams['axes.labelcolor'] = 'black'
+        rcParams['xtick.color'] = 'black'
+        rcParams['ytick.color'] = 'black'
+        rcParams['grid.color'] = '#E5E5E5'
+        rcParams['figure.facecolor'] = 'none'
+        rcParams['savefig.facecolor'] = 'none'
+        rcParams['axes.grid'] = True
+        rcParams['grid.alpha'] = 0.7
+
+# Default to light mode initially
+configure_matplotlib_for_theme(False)
 import datetime
 from matplotlib.patches import FancyBboxPatch
 # Optional imports with fallbacks for better compatibility
@@ -203,19 +237,24 @@ class FinancialInsightDialog(QDialog):
 class ModernDashboardTab(QWidget):
     """Widget representing the modern dashboard tab in the application."""
 
-    def __init__(self, db_manager, ai_components=None):
+    def __init__(self, db_manager, ai_components=None, dark_mode=False):
         """
         Initialize the dashboard tab.
 
         Args:
             db_manager: Database manager instance
             ai_components: Dictionary of AI components including subscription_analyzer, etc.
+            dark_mode: Whether to use dark mode for charts (default: False)
         """
         super().__init__()
         
         self.db_manager = db_manager
         self.logger = logging.getLogger(__name__)
         self.ai_components = ai_components or {}
+        self.dark_mode = dark_mode
+        
+        # Configure matplotlib theme based on dark mode
+        configure_matplotlib_for_theme(self.dark_mode)
         
         # Log available AI components
         if self.ai_components:
@@ -230,7 +269,7 @@ class ModernDashboardTab(QWidget):
         self.forecast_data = {}
         
         # Date range for filtering
-        self.current_date_range = "6M"  # Default to 6 months
+        self.current_date_range = "1M"  # Default to 1 month for better pie chart visibility
         
         # Initialize UI
         self.init_ui()
@@ -265,8 +304,8 @@ class ModernDashboardTab(QWidget):
         header_layout.addWidget(time_range_label)
         
         self.time_range_combo = QComboBox()
-        self.time_range_combo.addItems(["3M", "6M", "1Y", "All"])
-        self.time_range_combo.setCurrentText("6M")
+        self.time_range_combo.addItems(["1M", "3M", "6M", "1Y", "All"])
+        self.time_range_combo.setCurrentText("1M")  # Default to 1 month for better pie chart view
         self.time_range_combo.currentTextChanged.connect(self.on_time_range_changed)
         header_layout.addWidget(self.time_range_combo)
         
@@ -996,8 +1035,34 @@ class ModernDashboardTab(QWidget):
         """Refresh all dashboard components with current data."""
         self.logger.info("Refreshing dashboard data")
         
+        # Force a sync with the transactions tab first
+        try:
+            if hasattr(self, 'parentWidget') and self.parent() and hasattr(self.parent(), 'transactions_tab'):
+                self.logger.info("Syncing with transactions tab first")
+                # Call refresh on the transactions tab to ensure data is updated
+                self.parent().transactions_tab.load_transactions()
+                # Add a small delay to ensure database updates are complete
+                from PySide6.QtCore import QTimer
+                QTimer.singleShot(100, self.update_dashboard_data)
+                return
+        except Exception as e:
+            self.logger.error(f"Error syncing with transactions tab: {e}")
+        
+        # If we couldn't sync with transactions tab, continue with normal refresh
+        self.update_dashboard_data()
+        
+    def update_dashboard_data(self):
+        """Update all dashboard components with current data."""
+        self.logger.info("Updating dashboard data after sync")
+        
         # Clear any previous forecast data to force regeneration
         self.forecast_data = {}
+        
+        # Add debugging to see the connection with transaction tab
+        if hasattr(self, 'parentWidget') and self.parent() and hasattr(self.parent(), 'transactions_tab'):
+            self.logger.info("Connected to transactions tab with data")
+        else:
+            self.logger.warning("No connection to transactions tab detected")
         
         # Initialize budget tab if first run
         if hasattr(self, 'budget_allocation_container'):
@@ -1006,6 +1071,15 @@ class ModernDashboardTab(QWidget):
         try:
             # Import datetime up here so we can use it multiple times
             import datetime
+            
+            # Ensure database connection is active
+            if not hasattr(self.db_manager, 'conn') or self.db_manager.conn is None:
+                self.logger.warning("Database connection not available, reconnecting...")
+                try:
+                    self.db_manager._connect()
+                    self.logger.info("Successfully reconnected to database")
+                except Exception as db_err:
+                    self.logger.error(f"Failed to reconnect to database: {db_err}")
             
             # Get all transactions to find the last month with data
             transactions = self.db_manager.get_transactions()
@@ -1059,6 +1133,30 @@ class ModernDashboardTab(QWidget):
             self.logger.info(f"Dashboard summary - Income: {total_income:.2f}, Expenses: {total_expenses:.2f}, " +
                              f"Savings Transfers: {savings_transfers:.2f}, Balance: {balance:.2f}")
             
+            # Debug category data
+            self.logger.info("Debugging category data for pie chart")
+            try:
+                if hasattr(self.db_manager, 'connection') and self.db_manager.connection:
+                    cursor = self.db_manager.connection.cursor()
+                    cursor.execute("""
+                        SELECT c.name as category, COALESCE(SUM(t.amount), 0) as total
+                        FROM transactions t
+                        LEFT JOIN categories c ON t.category_id = c.id
+                        WHERE t.is_income = 0
+                        GROUP BY t.category_id
+                        ORDER BY total DESC
+                    """)
+                    
+                    rows = cursor.fetchall()
+                    self.logger.info(f"Found {len(rows)} expense categories with data:")
+                    for row in rows:
+                        category_name = row[0] if row[0] else "Other"
+                        amount = float(row[1])
+                        if amount > 0:
+                            self.logger.info(f"  Category: {category_name}, Amount: {amount:.2f}")
+            except Exception as e:
+                self.logger.error(f"Error debugging category data: {e}")
+            
             # Update cards with proper formatted values - make sure to force conversion to float
             self.income_card.update_value(f"{float(total_income):.2f} €")
             self.expense_card.update_value(f"{float(total_expenses):.2f} €")
@@ -1099,7 +1197,10 @@ class ModernDashboardTab(QWidget):
             
             # Get transactions over time based on selected range
             start_date = None
-            if self.current_date_range == "3M":
+            if self.current_date_range == "1M":
+                # Just the current month
+                start_date = current_date.replace(day=1).strftime("%Y-%m-%d")
+            elif self.current_date_range == "3M":
                 start_date = (current_date.replace(day=1) - datetime.timedelta(days=90)).strftime("%Y-%m-%d")
             elif self.current_date_range == "6M":
                 start_date = (current_date.replace(day=1) - datetime.timedelta(days=180)).strftime("%Y-%m-%d")
@@ -1125,8 +1226,57 @@ class ModernDashboardTab(QWidget):
             else:
                 filtered_transactions = transactions
             
-            # Update the spending by category chart
-            self.update_category_chart(filtered_transactions)
+            # FORCE a direct database query to get the most current spending by category data
+            try:
+                self.logger.info("*** CRITICAL: Performing direct database query for category data")
+                # Only do this if we have DB access - guaranteed to be the freshest data
+                if hasattr(self.db_manager, 'connection') and self.db_manager.connection:
+                    # Build the date filter for the SQL query - for pie chart, show all expense transactions
+                    date_filter = "WHERE t.is_income = 0"
+                    params = []
+                    
+                    self.logger.info(f"SQL Query using all expense transactions for pie chart")
+                    
+                    # Create SQL query for spending by category
+                    query = f"""
+                    SELECT c.name as category, COALESCE(SUM(t.amount), 0) as total
+                    FROM transactions t
+                    LEFT JOIN categories c ON t.category_id = c.id
+                    {date_filter}
+                    GROUP BY t.category_id
+                    ORDER BY total DESC
+                    """
+                    
+                    # Execute the query directly
+                    cursor = self.db_manager.connection.cursor()
+                    cursor.execute(query, params)
+                    
+                    # Get the category data directly
+                    direct_category_data = {}
+                    
+                    for row in cursor.fetchall():
+                        category_name = row[0] if row[0] else "Other"
+                        amount = float(row[1])
+                        # Only include categories with non-zero positive amounts
+                        if amount > 0:
+                            direct_category_data[category_name] = amount
+                    
+                    self.logger.info(f"Direct category query returned {len(direct_category_data)} categories with data")
+                    
+                    # Add some logging about the categories and values
+                    if direct_category_data:
+                        self.logger.info(f"Categories found: {list(direct_category_data.keys())}")
+                        self.logger.info(f"Category values: {list(direct_category_data.values())}")
+                    
+                    # Use the directly queried data to update the chart
+                    self.update_category_chart_with_data(direct_category_data)
+                else:
+                    # Fall back to the original method
+                    self.update_category_chart(filtered_transactions)
+            except Exception as e:
+                self.logger.error(f"Error during direct category update: {e}")
+                # Fall back to the original method
+                self.update_category_chart(filtered_transactions)
             
             # Get yearly data for charts
             yearly_data = []
@@ -1217,16 +1367,17 @@ class ModernDashboardTab(QWidget):
                 chart_month = now.month
                 chart_year = now.year
                 
-            current_month = f"{chart_year}-{chart_month:02d}"
-            self.logger.info(f"Filtering expenses for month: {current_month}")
+            # Use all available expense transactions regardless of date
+            self.logger.info(f"Using all expense transactions for pie chart, time range: {self.current_date_range}")
             
-            # Filter to current month expenses only - and exclude savings transactions
+            # Filter for all expenses, with no date filtering
             expenses = [tx for tx in transactions 
                        if not tx.get('is_income') 
-                       and tx.get('date', '').startswith(current_month)
                        and tx.get('category_name') not in ['Initial Balance', 'Previous Month', 'Balance Forward', 'Savings']
                        and "um " not in (tx.get('description', '') or '')
                        and tx.get('category_id') != 13]  # 13 is the Savings category ID
+                       
+            self.logger.info(f"Found {len(expenses)} expense transactions for pie chart")
             
             # Store expenses for details dialog
             self.expenses_by_category = {}
@@ -1240,13 +1391,72 @@ class ModernDashboardTab(QWidget):
             if hasattr(self, 'category_canvas'):
                 self.category_chart_container.layout().removeWidget(self.category_canvas)
                 self.category_canvas.deleteLater()
+            
+            # Process expenses to create category data
+            category_totals = {}
+            for tx in expenses:
+                category = tx.get('category_name', 'Other')
+                amount = tx.get('amount', 0)
+                if category not in category_totals:
+                    category_totals[category] = 0
+                category_totals[category] += amount
+            
+            # Log the data
+            self.logger.info(f"Category data: {category_totals}")
+            
+            # Call update_category_chart_with_data with the generated data
+            self.update_category_chart_with_data(category_totals)
                 
-            if not expenses:
+        except Exception as e:
+            self.logger.error(f"Error updating category chart: {e}", exc_info=True)
+            
+    def update_category_chart_with_data(self, category_data):
+        """Update the spending by category pie chart using pre-calculated category data.
+        
+        Args:
+            category_data: Dictionary mapping category names to total amounts
+        """
+        try:
+            # If no category data was provided or it's empty, try to retrieve it directly from the database
+            if not category_data and hasattr(self.db_manager, 'connection') and self.db_manager.connection:
+                self.logger.info("No category data provided, performing emergency direct database query")
+                
+                # Execute a direct query to get category data
+                cursor = self.db_manager.connection.cursor()
+                cursor.execute("""
+                    SELECT c.name as category, COALESCE(SUM(t.amount), 0) as total
+                    FROM transactions t
+                    LEFT JOIN categories c ON t.category_id = c.id
+                    WHERE t.is_income = 0
+                    GROUP BY t.category_id
+                    ORDER BY total DESC
+                """)
+                
+                # Get the results
+                category_data = {}
+                for row in cursor.fetchall():
+                    category_name = row[0] if row[0] else "Other"
+                    amount = float(row[1])
+                    # Only include categories with non-zero amounts
+                    if amount > 0:
+                        category_data[category_name] = amount
+                
+            self.logger.info(f"Updating category chart with direct data: {category_data}")
+            
+            # Store the data for later reference
+            self.category_totals = category_data
+            
+            # Clear any existing chart
+            if hasattr(self, 'category_canvas'):
+                self.category_chart_container.layout().removeWidget(self.category_canvas)
+                self.category_canvas.deleteLater()
+                
+            if not category_data:
                 # Create empty chart with message
                 fig = Figure(facecolor='none')
                 fig.set_tight_layout(True)
                 ax = fig.add_subplot(111)
-                ax.text(0.5, 0.5, "No expense data for current month", 
+                ax.text(0.5, 0.5, "No expense data found.\nAdd transactions via bank statements or manually in the Transactions tab.", 
                         horizontalalignment='center', verticalalignment='center',
                         transform=ax.transAxes, fontsize=12, color='gray')
                 ax.axis('off')
@@ -1256,13 +1466,8 @@ class ModernDashboardTab(QWidget):
                 self.category_chart_container.layout().addWidget(self.category_canvas)
                 return
                 
-            # Group by category
-            category_totals = {}
-            for tx in expenses:
-                category = tx.get('category_name', 'Other')
-                if category not in category_totals:
-                    category_totals[category] = 0
-                category_totals[category] += tx.get('amount', 0)
+            # Use the category data directly
+            category_totals = category_data
                 
             # Store category data for hover/click interactions
             self.category_data = category_totals
@@ -1311,7 +1516,7 @@ class ModernDashboardTab(QWidget):
                 startangle=90,
                 colors=colors,
                 explode=explode,
-                wedgeprops={'edgecolor': 'var(--border-color, white)', 'linewidth': 1.5, 'antialiased': True},
+                wedgeprops={'edgecolor': 'white', 'linewidth': 1.5, 'antialiased': True},
                 shadow=True,
                 radius=0.9  # Make pie slightly smaller to fit better
             )
@@ -1320,9 +1525,10 @@ class ModernDashboardTab(QWidget):
             ax.axis('equal')
             
             # Add a circular border around the pie chart for better visibility in dark mode
-            circle = plt.Circle((0, 0), 0.95, fill=False, 
-                               edgecolor='#E5E5E5',
-                               linewidth=1.5)
+            from matplotlib.patches import Circle
+            circle = Circle((0, 0), 0.95, fill=False, 
+                           edgecolor='#E5E5E5',
+                           linewidth=1.5)
             ax.add_artist(circle)
             
             # Customize the percentage text
@@ -1837,7 +2043,9 @@ class ModernDashboardTab(QWidget):
         range_value = self.current_date_range
         months_back = 0
         
-        if range_value == "3M":
+        if range_value == "1M":
+            months_back = 1
+        elif range_value == "3M":
             months_back = 3
         elif range_value == "6M":
             months_back = 6
@@ -3166,6 +3374,36 @@ class ModernDashboardTab(QWidget):
         else:
             # Normal mode
             pass
+            
+    def set_dark_mode(self, dark_mode):
+        """
+        Update the dark mode setting and refresh charts.
+        
+        Args:
+            dark_mode: Boolean indicating whether dark mode is enabled
+        """
+        if self.dark_mode == dark_mode:
+            return  # No change needed
+            
+        self.dark_mode = dark_mode
+        self.logger.info(f"Dashboard dark mode set to {dark_mode}")
+        
+        # Update matplotlib configuration
+        configure_matplotlib_for_theme(self.dark_mode)
+        
+        # Refresh all charts with new theme
+        if hasattr(self, 'category_data') and self.category_data:
+            self.update_category_chart(self.current_transactions)
+            
+        if hasattr(self, 'yearly_data') and self.yearly_data:
+            self.update_income_expense_chart(self.yearly_data)
+            self.update_trend_chart(self.yearly_data)
+            
+        if hasattr(self, 'forecast_data') and self.forecast_data:
+            self.update_forecast_tab()
+            
+        if hasattr(self, 'budget_allocation_container'):
+            self.update_budget_allocation_chart()
 
 
 class SummaryCard(QFrame):

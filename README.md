@@ -1,11 +1,30 @@
 # Madhva Budget Pro
 
-A comprehensive personal finance management application specifically designed for Sparkasse bank customers in Germany. Features automatic parsing of German Sparkasse bank statements with English translation, AI-powered transaction categorization, budgeting tools, and rich financial analytics, all within a beautiful macOS-optimized interface.
+A comprehensive personal finance management application specifically designed for Sparkasse bank customers in Germany. Features automatic parsing of German Sparkasse bank statements with English translation, AI-powered transaction categorization, budgeting tools, and rich financial analytics, all within a beautiful Adobe-inspired interface optimized for readability and professional use.
 
-<!-- Add screenshot here once available -->
-<!-- ![Madhva Budget Pro](docs/screenshot.png) -->
+<img src="logo.png" alt="Madhva Budget Pro Logo" width="120"/>
+
+## Dashboard Showcase
+
+The dashboard provides a comprehensive overview of your financial situation with interactive visualizations:
+
+- Spending by Category (pie chart)
+- Income vs Expenses comparison
+- Monthly Trends with future forecasting
+- Recent Transactions list
 
 > **Specialized for Sparkasse Bank Customers**: Upload your Sparkasse PDF statements in German and view your finances in English with automatic translation and smart categorization
+
+## New Adobe-Inspired Design System
+
+Madhva Budget Pro has been completely redesigned with an Adobe-inspired design system that enhances readability, visual organization, and professional appearance. The new UI features:
+
+- **Clean Visual Hierarchy**: Improved typography and spacing for better information scanning
+- **Card-Based Layout**: Content organization with clear visual boundaries
+- **Modern Component Library**: Consistently styled buttons, cards, and form elements
+- **Professional Color Scheme**: Based on Adobe's design language
+- **Enhanced Visualizations**: Improved charts and data representations
+- **Responsive Design**: Improved layout adaptation to different screen sizes
 
 ## Key Features
 
@@ -35,10 +54,11 @@ A comprehensive personal finance management application specifically designed fo
 - **Touch ID Support**: macOS biometric authentication integration
 
 ### 🎨 Modern UI/UX
-- **macOS Native Look & Feel**: Beautiful interface optimized for macOS
-- **Light/Dark Mode**: Support for system appearance preferences
-- **Responsive Design**: Adapts to different window sizes
-- **Intuitive Navigation**: User-friendly tab-based interface
+- **Adobe-Inspired Design**: Professional and clean interface based on Adobe's design language
+- **Light/Dark Mode**: Complete support for both light and dark themes
+- **Responsive Design**: Adapts to different window sizes with improved layout adjustments
+- **Intuitive Navigation**: Enhanced tab-based interface with improved visual feedback
+- **Accessibility**: Better text contrast and visual organization for improved readability
 
 ### 🚀 Advanced Features
 - **Budget Planning**: Set and track budgets by category
@@ -67,8 +87,8 @@ Before installing Madhva Budget Pro, ensure you have:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/madhva-budget-pro.git
-   cd madhva-budget-pro
+   git clone https://github.com/yourname/Financial_planner.git
+   cd Financial_planner
    ```
 
 2. **Create a virtual environment** (recommended):
@@ -84,48 +104,70 @@ Before installing Madhva Budget Pro, ensure you have:
 
 3. **Install dependencies**:
    ```bash
+   # Use the provided script for all dependencies
+   ./install_dependencies.sh
+   
+   # Or install manually
    pip install -r requirements.txt
    ```
 
 4. **Setup the database**:
    ```bash
-   # Rename the sample database
+   # Use the sample database
    cp financial_planner.db.sample financial_planner.db
    
    # Or generate fresh sample data
    python create_sample_db.py
-   mv sample_financial_planner.db financial_planner.db
+   
+   # For pie chart testing
+   python fix_pie_chart.py
    ```
 
 ### Running the Application
 
-#### macOS
+#### macOS Quick Launch
 
-The simplest way to run on macOS:
+Use the provided command file for quick launch on macOS:
 
 ```bash
 # Make the launcher executable (first time only)
-chmod +x direct_run.command
+chmod +x FinancialPlanner.command
 
 # Run the application
-./direct_run.command
+./FinancialPlanner.command
 ```
 
-This launches the application with full security features enabled.
+#### Standard Launch
 
-#### Windows
+You can also run the application directly:
 
+**macOS/Linux:**
 ```bash
-python src\main_pyside6.py
+python main_pyside6.py
 ```
 
-#### Linux
-
+**Windows:**
 ```bash
-python3 src/main_pyside6.py
+python main_pyside6.py
 ```
 
 #### Docker Support
+
+For containerized deployment:
+
+```bash
+# Run the application in Docker (first time may take a while to build)
+./run-in-docker.sh
+```
+
+#### Standalone Build
+
+Build a standalone executable (experimental):
+
+```bash
+# Create a standalone executable for your platform
+./build-standalone.sh
+```
 
 For containerized deployment:
 
@@ -154,6 +196,7 @@ The application features a secure login system to protect your financial data.
 ## Technical Details
 
 ### Architecture
+- **Design System**: Custom Adobe-inspired component library with consistent styling
 - **Frontend**: PySide6/PyQt5 for the UI
 - **Backend**: Pure Python with SQLite database
 - **Analytics**: Matplotlib for visualization, Pandas for data processing
@@ -162,11 +205,20 @@ The application features a secure login system to protect your financial data.
 - **Translation**: German to English translation for bank statements
 
 ### System Requirements
-- **Operating Systems**: macOS 10.14+ (optimized), Windows 10+, Linux
+- **Operating Systems**: macOS 10.14+, Windows 10+, Linux
 - **Python**: 3.9 or newer
 - **Memory**: 4GB RAM recommended
 - **Storage**: 200MB + space for your financial data
 - **Language Support**: English UI with German bank statement processing
+
+## Recent Updates
+
+### March 2025 Update
+- Fixed issues with pie chart rendering in the Dashboard tab
+- Added additional data visualization options
+- Improved compatibility with latest PySide6
+- Enhanced dark mode support
+- Fixed bugs related to database connection
 
 ## License
 
@@ -174,6 +226,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgements
 
+- Adobe for design inspiration
 - Icons from various free icon libraries
 - PySide6 and Qt for the UI framework
 - Python community for the excellent libraries
@@ -216,6 +269,8 @@ Developed with ❤️ by Madhva
   - `database/` - Database management
   - `models/` - Data models
   - `ui/` - User interface components
+    - `adobe_*.py` - Adobe-styled UI components
+    - `design_system.py` - The Adobe-inspired design system
   - `main_pyside6.py` - Application entry point
 
 ## License
