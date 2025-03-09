@@ -2,6 +2,8 @@
 
 A comprehensive personal finance management application specifically designed for Sparkasse bank customers in Germany. Features automatic parsing of German Sparkasse bank statements with English translation, AI-powered transaction categorization, budgeting tools, and rich financial analytics, all within a beautiful Adobe-inspired interface optimized for readability and professional use.
 
+Financial Planner Pro prioritizes your privacy with robust security features including Touch ID authentication, encrypted local data storage, and zero data transmission to external servers. The application works completely offline, ensuring your financial data never leaves your device. Additional features include subscription tracking, spending forecasts, smart budget recommendations, multi-language support, and a sophisticated reporting system with exportable insights. The application is designed for maximum performance even on older hardware, with a responsive UI that adapts to any screen size from laptops to large desktop monitors.
+
 <img src="logo.png" alt="Financial Planner Pro Logo" width="120"/>
 
 ## Quick Start Guide
