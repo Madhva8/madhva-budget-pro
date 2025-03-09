@@ -6,11 +6,11 @@ A comprehensive personal finance management application specifically designed fo
 
 ## Quick Start Guide
 
-| Platform | Launch Method |
-|----------|--------------|
-| **macOS** | Double-click `FinancialPlanner.command` or `StartApp.command` |
-| **Windows** | Double-click `start_app.bat` |
-| **Linux** | Run `./run_app.sh` or `./start_app.sh` |
+| Platform | Launch Method | Detailed Guide |
+|----------|--------------|----------------|
+| **macOS** | Double-click `FinancialPlanner.command` or `StartApp.command` | [macOS Guide](MACOS_GUIDE.md) |
+| **Windows** | Double-click `start_app.bat` | [Windows Guide](WINDOWS_GUIDE.md) |
+| **Linux** | Run `./run_app.sh` or `./start_app.sh` | [Linux Guide](LINUX_GUIDE.md) |
 
 ## New in March 2025 Update
 - **Enhanced Touch ID Support** - Seamless authentication on macOS devices 
