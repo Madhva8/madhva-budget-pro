@@ -52,3 +52,8 @@ try_*.command
 financial_planner.db
 financial_planner.db.bak
 !financial_planner.db.sample
+
+# Additional launcher files and backups
+backup_launch_scripts/
+.touchid_setup_complete
+fix_credentials.py

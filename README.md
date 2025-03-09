@@ -4,13 +4,19 @@ A comprehensive personal finance management application specifically designed fo
 
 <img src="logo.png" alt="Madhva Budget Pro Logo" width="120"/>
 
-## Quick Download & Run Guide
+## Quick Start Guide
 
-| Platform | Download & Run Instructions |
-|----------|----------------------------|
-| **macOS** | [**→ DOWNLOAD & RUN ON MAC**](MACOS_GUIDE.md) |
-| **Windows** | [**→ DOWNLOAD & RUN ON WINDOWS**](WINDOWS_GUIDE.md) |
-| **Linux** | [**→ DOWNLOAD & RUN ON LINUX**](LAUNCH_GUIDE.md#linux) |
+| Platform | Launch Method |
+|----------|--------------|
+| **macOS** | Double-click `FinancialPlanner.command` or `StartApp.command` |
+| **Windows** | Double-click `start_app.bat` |
+| **Linux** | Run `./run_app.sh` or `./start_app.sh` |
+
+## New in March 2025 Update
+- **Enhanced Touch ID Support** - Seamless authentication on macOS devices 
+- **Password Auto-Fill** - Touch ID now automatically fills your password
+- **Cross-Platform Launchers** - Easy-to-use startup scripts for all platforms
+- **Improved UI/UX** - Polished interface with Adobe-inspired design
 
 ## Dashboard Showcase
 
@@ -91,7 +97,20 @@ Before installing Madhva Budget Pro, ensure you have:
 - **Windows**: Download installer from [python.org](https://www.python.org/downloads/)
 - **Linux**: Use your distribution's package manager (e.g., `apt install python3 python3-pip`)
 
-### Step-by-Step Installation
+### Installation Guide
+
+#### Option 1: Direct Download (Recommended)
+
+1. **Download the latest version**:
+   - Visit [GitHub Releases](https://github.com/Madhva8/madhva-budget-pro/releases)
+   - Download the version for your operating system
+
+2. **Launch the application**:
+   - **macOS**: Double-click `FinancialPlanner.command`
+   - **Windows**: Double-click `start_app.bat`
+   - **Linux**: Run `./run_app.sh`
+
+#### Option 2: Clone from GitHub
 
 1. **Clone the repository**:
    ```bash
@@ -99,77 +118,43 @@ Before installing Madhva Budget Pro, ensure you have:
    cd madhva-budget-pro
    ```
 
-2. **Install dependencies** (choose one option):
+2. **Run the application launcher for your platform**:
+   - **macOS**: `./FinancialPlanner.command`
+   - **Windows**: `start_app.bat`
+   - **Linux**: `./run_app.sh`
 
-   **Option 1: Using the helper script** (recommended)
-   ```bash
-   # Make the script executable (macOS/Linux)
-   chmod +x install_dependencies.sh
-   
-   # Run the script
-   ./install_dependencies.sh
-   ```
+The launchers automatically:
+- Check for and install required dependencies
+- Set up the database with sample data
+- Configure Touch ID on macOS (if available)
+- Run the application with optimal settings
 
-   **Option 2: Manual installation**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Platform-Specific Notes
 
-3. **Setup the database**:
-   ```bash
-   # Copy the sample database
-   cp financial_planner.db.sample financial_planner.db
-   
-   # Add sample expense data for pie chart visualization
-   python fix_pie_chart.py
-   ```
+#### macOS
 
-4. **Run the application** with our easy launcher:
-   ```bash
-   # macOS
-   ./SimpleStart.command
-   
-   # Windows
-   start_app.bat
-   
-   # Linux
-   ./start_app.sh
-   ```
+The macOS launcher provides the following features:
+- **Touch ID Support**: Secure authentication using your fingerprint
+- **Automatic Dependencies**: Installs required packages if needed
+- **Database Setup**: Creates and populates the database automatically
 
-### Running the Application
+If Touch ID is available, you'll be prompted to authorize its use the first time you run the application.
 
-We've created several easy-to-use launchers for different operating systems:
+#### Windows 
 
-#### macOS Quick Launch
+The Windows launcher:
+- Automatically checks for Python and installs dependencies
+- Creates the required database structure
+- Configures proper environment variables
 
-See our [**Detailed macOS Guide**](MACOS_GUIDE.md) for step-by-step download and installation instructions.
+#### Linux
 
-```bash
-# Make the launcher executable (first time only)
-chmod +x SimpleStart.command
+The Linux launcher:
+- Works across most major distributions (Ubuntu, Fedora, etc.)
+- Checks for required GUI components
+- Sets up the proper Python environment
 
-# Run the application with a double-click in Finder or:
-./SimpleStart.command
-```
-
-#### Windows Launch
-
-```bash
-# Double-click start_app.bat in File Explorer or run:
-start_app.bat
-```
-
-See [WINDOWS_GUIDE.md](WINDOWS_GUIDE.md) for detailed Windows installation instructions.
-
-#### Linux Launch
-
-```bash
-# Make the launcher executable (first time only)
-chmod +x start_app.sh
-
-# Run the application
-./start_app.sh
-```
+For all platforms, the application will remember your login credentials for quicker future access.
 
 #### Docker Support
 
@@ -177,10 +162,10 @@ For containerized deployment:
 
 ```bash
 # Run the application in Docker (first time may take a while to build)
-./run-in-docker.sh
-
-# Or use docker-compose directly
 docker compose up -d
+
+# Access the application through your browser at:
+http://localhost:8080
 
 # Stop the container when done
 docker compose down
@@ -188,7 +173,7 @@ docker compose down
 
 #### Standalone Application (Advanced)
 
-Build a standalone executable for your platform:
+You can build a standalone executable that doesn't require Python to be installed:
 
 ```bash
 # macOS
@@ -201,9 +186,7 @@ windows_build.bat
 ./linux_build.sh
 ```
 
-#### Detailed Instructions
-
-For more detailed instructions on running the application, troubleshooting common issues, and creating desktop shortcuts, see the [LAUNCH_GUIDE.md](LAUNCH_GUIDE.md) file.
+The standalone executables will be created in the `dist/` directory.
 
 ### Troubleshooting
 
@@ -214,10 +197,21 @@ For more detailed instructions on running the application, troubleshooting commo
 
 ### Authentication
 
-The application features a secure login system to protect your financial data.
-- For testing purposes, the sample database includes two accounts
-- Security measures prevent bypassing the authentication system
-- Contact the administrator for access credentials if needed
+The application features a secure login system with biometric support to protect your financial data.
+
+#### Login System
+
+- **Secure Authentication**: Password hashing with salt for maximum security
+- **Multiple Users**: Support for different user accounts with varying permissions
+- **Remember Me**: Option to securely store credentials for quicker logins
+- **Account Management**: Create and manage your own user accounts
+
+#### Biometric Authentication
+
+- **Touch ID Support**: On macOS devices with Touch ID, use fingerprint for fast, secure login
+- **Password Auto-Fill**: Biometric authentication automatically fills credentials
+- **Enhanced Security**: All biometric data is handled securely by your operating system
+- **Seamless Experience**: Quick authentication without compromising security
 
 ## Technical Details
 
