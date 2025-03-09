@@ -4,6 +4,14 @@ A comprehensive personal finance management application specifically designed fo
 
 <img src="logo.png" alt="Madhva Budget Pro Logo" width="120"/>
 
+## Quick Download & Run Guide
+
+| Platform | Download & Run Instructions |
+|----------|----------------------------|
+| **macOS** | [**→ DOWNLOAD & RUN ON MAC**](MACOS_GUIDE.md) |
+| **Windows** | [**→ DOWNLOAD & RUN ON WINDOWS**](WINDOWS_GUIDE.md) |
+| **Linux** | [**→ DOWNLOAD & RUN ON LINUX**](LAUNCH_GUIDE.md#linux) |
+
 ## Dashboard Showcase
 
 The dashboard provides a comprehensive overview of your financial situation with interactive visualizations:
@@ -133,6 +141,8 @@ Before installing Madhva Budget Pro, ensure you have:
 We've created several easy-to-use launchers for different operating systems:
 
 #### macOS Quick Launch
+
+See our [**Detailed macOS Guide**](MACOS_GUIDE.md) for step-by-step download and installation instructions.
 
 ```bash
 # Make the launcher executable (first time only)
