@@ -39,7 +39,7 @@
 - **No Internet Required**: Works offline so your financial data remains private
 - **Cross-Platform Support**: Available for macOS, Windows, and Linux
 - **Modern Adobe-Inspired UI**: Clean, intuitive interface that makes finance management pleasant
-- **Dark Mode Support**: Easy on the eyes during late-night study sessions
+- **Optimized for Readability**: Clear typography and visual hierarchy for easy financial overview
 
 ### Getting Started is Simple
 1. Download and install Madhva Budget Pro for your platform (macOS, Windows, or Linux)
