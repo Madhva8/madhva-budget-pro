@@ -1,6 +1,6 @@
 # Madhva Budget Pro - macOS Installation Guide
 
-This guide provides step-by-step instructions for downloading, installing, and running Madhva Budget Pro on macOS without using an IDE.
+This guide provides step-by-step instructions for downloading, installing, and running Madhva Budget Pro on macOS with Touch ID support.
 
 ## Quick Start Guide
 
@@ -12,20 +12,27 @@ This guide provides step-by-step instructions for downloading, installing, and r
 4. Once downloaded, open Finder and go to your Downloads folder
 5. Double-click the ZIP file to extract it
 
-\![Download Steps](docs/screenshots/download.png)
-
 ### Step 2: Run the Application
 
 1. Open the extracted folder (named "madhva-budget-pro-master")
-2. **Right-click** on `SimpleStart.command` and select "Open"
+2. **Right-click** on `FinancialPlanner.command` or `StartApp.command` and select "Open"
    * On the first run, you may see a security warning - click "Open" to proceed
-3. The application will start automatically\!
+3. The application will start automatically!
 
-That's it\! The launcher will:
+That's it! The launcher will:
 - Detect Python on your system
 - Install any missing dependencies
 - Set up the database
+- Configure Touch ID support (if available)
 - Start the application
+
+## Touch ID Support
+
+This application supports Touch ID authentication on compatible Mac devices:
+
+1. When you first run the app, you may be asked for your password to set up Touch ID
+2. After setup, you can use Touch ID for future logins
+3. Touch ID will automatically fill your password after successful fingerprint verification
 
 ## Detailed Installation Steps
 

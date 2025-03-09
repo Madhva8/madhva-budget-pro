@@ -1,25 +1,26 @@
 # Madhva Budget Pro - Windows Installation Guide
 
-This guide provides step-by-step instructions for installing and running Madhva Budget Pro on Windows systems without using an IDE.
+This guide provides step-by-step instructions for installing and running Madhva Budget Pro on Windows systems.
 
 ## Installation Requirements
 
-- Windows 7, 8, 10, or 11
+- Windows 10 or 11 (Windows 7 and 8 may work but are not officially supported)
 - Internet connection (for downloading dependencies)
 - 500MB free disk space
+- Python 3.9 or newer
 
-## Step 1: Install Python
+## Quick Start Guide
+
+### Step 1: Install Python (if not already installed)
 
 1. Download Python from the official website: [python.org/downloads](https://www.python.org/downloads/)
 2. Run the installer
 3. **IMPORTANT**: Check the box "Add Python to PATH" during installation
 4. Click "Install Now"
 
-\![Python Installation](https://www.python.org/static/community_logos/python-logo.png)
+### Step 2: Download Madhva Budget Pro
 
-## Step 2: Download Madhva Budget Pro
-
-### Option 1: Using Git (Recommended)
+#### Option 1: Using Git (Recommended)
 
 1. Download and install Git from [git-scm.com](https://git-scm.com/download/win)
 2. Open Command Prompt (search for "cmd" in the Start menu)
@@ -31,23 +32,22 @@ git clone https://github.com/Madhva8/madhva-budget-pro.git
 cd madhva-budget-pro
 ```
 
-### Option 2: Direct Download
+#### Option 2: Direct Download
 
 1. Go to [github.com/Madhva8/madhva-budget-pro](https://github.com/Madhva8/madhva-budget-pro)
 2. Click the green "Code" button
 3. Select "Download ZIP"
 4. Extract the ZIP file to a location you can easily find (e.g., Documents folder)
 
-## Step 3: Run the Application
+### Step 3: Run the Application
 
 1. Navigate to the Madhva Budget Pro folder in File Explorer
-2. **Double-click** the file named `start_app.bat`
+2. **Double-click** the file named `start_app.bat` or `run_app.bat`
 
-That's it\! The application will:
+That's it! The application will:
 - Automatically check for Python
 - Install required dependencies if needed
-- Set up the database
-- Create a desktop shortcut
+- Set up the database with sample data
 - Launch the application
 
 ## Troubleshooting Common Issues
