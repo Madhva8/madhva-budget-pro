@@ -37,11 +37,12 @@
 ### Technical Highlights
 - **100% Privacy-Focused**: All data stays on your computer, no cloud storage
 - **No Internet Required**: Works offline so your financial data remains private
+- **Cross-Platform Support**: Available for macOS, Windows, and Linux
 - **Modern Adobe-Inspired UI**: Clean, intuitive interface that makes finance management pleasant
 - **Dark Mode Support**: Easy on the eyes during late-night study sessions
 
 ### Getting Started is Simple
-1. Download and install Madhva Budget Pro
+1. Download and install Madhva Budget Pro for your platform (macOS, Windows, or Linux)
 2. Log in to your Sparkasse account and download your bank statements as PDF
 3. Import the statements into the app and see your finances visualized instantly
 4. Set up categories and budgets based on your student lifestyle
@@ -54,4 +55,4 @@ Perfect for international students who:
 - Want to keep track of WG (shared apartment) expenses
 - Need to report financial activity for scholarship/BAföG requirements
 
-Dont struggle with Excel spreadsheets or generic finance apps not designed for German banking—download Madhva Budget Pro and take control of your student finances today\!
+Don't struggle with Excel spreadsheets or generic finance apps not designed for German banking—download Madhva Budget Pro for your operating system and take control of your student finances today!
