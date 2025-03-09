@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # ====================================================
-# Madhva Budget Pro - Financial Management Application
+# Financial Planner Pro - Financial Management Application
 # Launcher with Touch ID Support
 # ====================================================
 
 # Display app startup message with fancy formatting
 echo "╭────────────────────────────────────────────────╮"
-echo "│            🧮 Madhva Budget Pro               │"
+echo "│         🧮 Financial Planner Pro              │"
 echo "│       Financial Management Application         │"
 echo "╰────────────────────────────────────────────────╯"
 echo "🔐 Touch ID authentication will be automatically enabled"
@@ -32,7 +32,7 @@ echo "✅ Python 3 found: $(python3 --version)"
 
 # Check for required packages and install if needed
 echo "🔍 Checking dependencies..."
-DEPENDENCIES=("PySide6" "keyring" "matplotlib" "pandas" "pdfplumber")
+DEPENDENCIES=("PySide6" "keyring" "matplotlib" "pandas" "pdfplumber" "numpy" "pillow" "PyQt5" "SQLAlchemy")
 MISSING_DEPS=()
 
 for dep in "${DEPENDENCIES[@]}"; do
@@ -114,10 +114,10 @@ def fix_credentials():
         )
         ''')
         
-        # Default users to create or update
+        # Default users to create or update with generic credentials
         users = [
-            ("mohna", "Mohna@30", "mohna@example.com", "Mohna User", False),
-            ("Madhva", "Mohna@30", "madhva@example.com", "Madhva User", False),
+            ("user1", "password1", "user1@example.com", "Regular User", False),
+            ("user2", "password2", "user2@example.com", "Regular User", False),
             ("admin", "admin", "admin@example.com", "Administrator", True),
             ("demo", "demo", "demo@example.com", "Demo User", False)
         ]
@@ -252,19 +252,22 @@ EOL
 fi
 
 # Run the application with all necessary settings
-echo "🚀 Launching Madhva Budget Pro..."
+echo "🚀 Launching Financial Planner Pro..."
 
 # Set environment variables
 export PYTHONPATH="$APP_DIR"
 export OS_MODULE_FIX="1"
-export MADHVA_APP_ENV="production"
+export FINANCIAL_PLANNER_APP_ENV="production"
+export TOUCHID_ENABLED="1"
 
 # Determine the main script to run
 MAIN_SCRIPT=""
-if [ -f "$APP_DIR/main_pyside6.py" ]; then
-    MAIN_SCRIPT="$APP_DIR/main_pyside6.py"
-elif [ -f "$APP_DIR/src/main_pyside6.py" ]; then
+if [ -f "$APP_DIR/src/main_pyside6.py" ]; then
     MAIN_SCRIPT="$APP_DIR/src/main_pyside6.py"
+elif [ -f "$APP_DIR/main_pyside6.py" ]; then
+    MAIN_SCRIPT="$APP_DIR/main_pyside6.py"  
+elif [ -f "$APP_DIR/src/main.py" ]; then
+    MAIN_SCRIPT="$APP_DIR/src/main.py"
 else
     echo "❌ ERROR: Could not find main application script."
     exit 1
@@ -274,9 +277,41 @@ echo "▶️ Running: $MAIN_SCRIPT"
 
 # Run the application
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    # On macOS, use Terminal.app's "Run command in window" functionality
-    # This helps show the app GUI without Terminal remaining in foreground
+    # For macOS: Try different methods to run the app with proper GUI support
+    
+    # Method 1: Direct Python execution with environment variables
+    echo "▶️ Launching application directly..."
     python3 "$MAIN_SCRIPT"
+    
+    # If we get here, the app didn't stay running, so try alternative launch method
+    if [ $? -ne 0 ]; then
+        echo "⚠️ Direct launch failed, trying alternative launch method..."
+        
+        # Create a temporary launcher script
+        TEMP_LAUNCHER=$(mktemp)
+        cat > "$TEMP_LAUNCHER" << EOF
+#!/bin/bash
+cd "$APP_DIR"
+export PYTHONPATH="$APP_DIR"
+export OS_MODULE_FIX="1"
+export FINANCIAL_PLANNER_APP_ENV="production"
+export TOUCHID_ENABLED="1"
+export TOUCHID_PREAUTH="1"
+
+# Run with Python's -u flag for unbuffered output
+python3 -u "$MAIN_SCRIPT"
+
+# Keep terminal open if there was an error
+if [ \$? -ne 0 ]; then
+    echo "Application exited with an error. Press Enter to close this window."
+    read -p ""
+fi
+EOF
+        chmod +x "$TEMP_LAUNCHER"
+        
+        # Run the application in a new Terminal window
+        open -a Terminal.app "$TEMP_LAUNCHER"
+    fi
 else
     # Standard execution for other platforms
     python3 "$MAIN_SCRIPT"
