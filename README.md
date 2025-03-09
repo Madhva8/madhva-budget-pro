@@ -79,7 +79,7 @@ Before installing Madhva Budget Pro, ensure you have:
 
 #### Installing Python
 
-- **macOS**: Install using Homebrew: `brew install python`
+- **macOS**: Install using Homebrew: `brew install python` or download [Anaconda](https://www.anaconda.com/download)
 - **Windows**: Download installer from [python.org](https://www.python.org/downloads/)
 - **Linux**: Use your distribution's package manager (e.g., `apt install python3 python3-pip`)
 
@@ -87,68 +87,76 @@ Before installing Madhva Budget Pro, ensure you have:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourname/Financial_planner.git
-   cd Financial_planner
+   git clone https://github.com/Madhva8/madhva-budget-pro.git
+   cd madhva-budget-pro
    ```
 
-2. **Create a virtual environment** (recommended):
+2. **Install dependencies** (choose one option):
+
+   **Option 1: Using the helper script** (recommended)
    ```bash
-   # macOS/Linux
-   python3 -m venv venv
-   source venv/bin/activate
+   # Make the script executable (macOS/Linux)
+   chmod +x install_dependencies.sh
    
-   # Windows
-   python -m venv venv
-   venv\Scripts\activate
-   ```
-
-3. **Install dependencies**:
-   ```bash
-   # Use the provided script for all dependencies
+   # Run the script
    ./install_dependencies.sh
-   
-   # Or install manually
+   ```
+
+   **Option 2: Manual installation**
+   ```bash
    pip install -r requirements.txt
    ```
 
-4. **Setup the database**:
+3. **Setup the database**:
    ```bash
-   # Use the sample database
+   # Copy the sample database
    cp financial_planner.db.sample financial_planner.db
    
-   # Or generate fresh sample data
-   python create_sample_db.py
-   
-   # For pie chart testing
+   # Add sample expense data for pie chart visualization
    python fix_pie_chart.py
+   ```
+
+4. **Run the application** with our easy launcher:
+   ```bash
+   # macOS
+   ./SimpleStart.command
+   
+   # Windows
+   start_app.bat
+   
+   # Linux
+   ./start_app.sh
    ```
 
 ### Running the Application
 
-#### macOS Quick Launch
+We've created several easy-to-use launchers for different operating systems:
 
-Use the provided command file for quick launch on macOS:
+#### macOS Quick Launch
 
 ```bash
 # Make the launcher executable (first time only)
-chmod +x FinancialPlanner.command
+chmod +x SimpleStart.command
+
+# Run the application with a double-click in Finder or:
+./SimpleStart.command
+```
+
+#### Windows Launch
+
+```bash
+# Double-click start_app.bat in File Explorer or run:
+start_app.bat
+```
+
+#### Linux Launch
+
+```bash
+# Make the launcher executable (first time only)
+chmod +x start_app.sh
 
 # Run the application
-./FinancialPlanner.command
-```
-
-#### Standard Launch
-
-You can also run the application directly:
-
-**macOS/Linux:**
-```bash
-python main_pyside6.py
-```
-
-**Windows:**
-```bash
-python main_pyside6.py
+./start_app.sh
 ```
 
 #### Docker Support
@@ -158,26 +166,32 @@ For containerized deployment:
 ```bash
 # Run the application in Docker (first time may take a while to build)
 ./run-in-docker.sh
-```
 
-#### Standalone Build
-
-Build a standalone executable (experimental):
-
-```bash
-# Create a standalone executable for your platform
-./build-standalone.sh
-```
-
-For containerized deployment:
-
-```bash
-# Build and start the container
+# Or use docker-compose directly
 docker compose up -d
 
 # Stop the container when done
 docker compose down
 ```
+
+#### Standalone Application (Advanced)
+
+Build a standalone executable for your platform:
+
+```bash
+# macOS
+./mac_build.sh
+
+# Windows
+windows_build.bat
+
+# Linux
+./linux_build.sh
+```
+
+#### Detailed Instructions
+
+For more detailed instructions on running the application, troubleshooting common issues, and creating desktop shortcuts, see the [LAUNCH_GUIDE.md](LAUNCH_GUIDE.md) file.
 
 ### Troubleshooting
 
