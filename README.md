@@ -257,7 +257,7 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 ---
 
-Developed with ❤️ by the Financial Planner Pro Team
+Developed with ❤️ by Madhva (madhva.fakare@uni-muenster.de)
 
 ## Usage
 
