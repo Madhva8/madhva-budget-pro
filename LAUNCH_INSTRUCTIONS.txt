@@ -1,0 +1,38 @@
+===================================
+FINANCIAL PLANNER PRO - LAUNCH GUIDE
+===================================
+
+There are several ways to run Financial Planner Pro directly without PyCharm:
+
+1. QUICKEST OPTION:
+   - Double-click "FinancialPlanner.command"
+   - This will launch the app with minimal setup
+
+2. FIRST-TIME USERS:
+   - Double-click "RunApp.command"
+   - This will set up a sample database if needed and run the app
+
+3. CREATE DESKTOP SHORTCUT:
+   - Double-click "Create_Desktop_Shortcut.command"
+   - This will create a shortcut on your Desktop
+
+4. STANDARD LAUNCH:
+   - Double-click "FinancialPlanner.command" or "FinancialPlannerDirect.command"
+
+TROUBLESHOOTING:
+===============
+
+If you see "Application can't be opened" messages:
+1. Open Terminal
+2. Navigate to this folder:
+   cd /path/to/Financial_planner
+3. Make all scripts executable:
+   chmod +x *.command
+4. Try launching again
+
+If you get Python errors:
+1. Ensure Python 3.9+ is installed
+2. Run the install_dependencies.sh script:
+   ./install_dependencies.sh
+
+For further assistance, refer to the README.md file.

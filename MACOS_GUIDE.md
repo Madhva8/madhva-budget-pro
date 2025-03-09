@@ -1,12 +1,12 @@
-# Madhva Budget Pro - macOS Installation Guide
+# Financial Planner Pro - macOS Installation Guide
 
-This guide provides step-by-step instructions for downloading, installing, and running Madhva Budget Pro on macOS with Touch ID support.
+This guide provides step-by-step instructions for downloading, installing, and running Financial Planner Pro on macOS with Touch ID support.
 
 ## Quick Start Guide
 
 ### Step 1: Download the Application
 
-1. Visit [github.com/Madhva8/madhva-budget-pro](https://github.com/Madhva8/madhva-budget-pro)
+1. Visit the GitHub repository
 2. Click the green "Code" button
 3. Select "Download ZIP"
 4. Once downloaded, open Finder and go to your Downloads folder
@@ -14,7 +14,7 @@ This guide provides step-by-step instructions for downloading, installing, and r
 
 ### Step 2: Run the Application
 
-1. Open the extracted folder (named "madhva-budget-pro-master")
+1. Open the extracted folder
 2. **Right-click** on `FinancialPlanner.command` or `StartApp.command` and select "Open"
    * On the first run, you may see a security warning - click "Open" to proceed
 3. The application will start automatically!
@@ -59,7 +59,7 @@ This application supports Touch ID authentication on compatible Mac devices:
 
 macOS protects you from running applications from unidentified developers. To run our application:
 
-1. Right-click (or Control+click) on `SimpleStart.command`
+1. Right-click (or Control+click) on `FinancialPlanner.command`
 2. Select "Open" from the context menu
 3. When the warning appears, click "Open"
 
@@ -72,19 +72,19 @@ If you encounter "Permission denied" errors:
 1. Open Terminal
 2. Navigate to your application directory:
    ```
-   cd /path/to/madhva-budget-pro-master
+   cd /path/to/financial-planner-folder
    ```
 3. Make the launcher executable:
    ```
-   chmod +x SimpleStart.command
+   chmod +x FinancialPlanner.command
    ```
 
 ## Creating a Desktop Shortcut (Alias)
 
 For easier access:
 
-1. In Finder, navigate to the madhva-budget-pro folder
-2. Right-click on `SimpleStart.command`
+1. In Finder, navigate to the financial-planner folder
+2. Right-click on `FinancialPlanner.command`
 3. Hold down the Option key and select "Make Alias"
 4. Drag the alias to your Desktop or Applications folder
 
@@ -97,7 +97,7 @@ This usually means the script isn't executable:
 1. Open Terminal
 2. Navigate to the application folder:
    ```
-   cd /path/to/madhva-budget-pro-master
+   cd /path/to/financial-planner-folder
    ```
 3. Make all scripts executable:
    ```
@@ -148,7 +148,7 @@ If you encounter issues:
 
 1. Check the main [README.md](README.md) file
 2. Visit the GitHub repository for updates
-3. Report issues on the [GitHub issues page](https://github.com/Madhva8/madhva-budget-pro/issues)
+3. Report issues on the GitHub repository
 
 ## Updates
 

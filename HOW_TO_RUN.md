@@ -1,6 +1,6 @@
-# How to Run Madhva Budget Pro
+# How to Run Financial Planner Pro
 
-This guide explains how to download and run Madhva Budget Pro on your computer without needing any programming experience.
+This guide explains how to download and run Financial Planner Pro on your computer without needing any programming experience.
 
 ## Step 1: Choose Your Operating System
 
@@ -21,7 +21,7 @@ Click on the appropriate guide above for your operating system. The guide will p
 ## Getting Started in 30 Seconds
 
 ### On Mac:
-Download → Extract → Right-click SimpleStart.command → Open
+Download → Extract → Right-click FinancialPlanner.command → Open
 
 ### On Windows:
 Download → Extract → Double-click start_app.bat

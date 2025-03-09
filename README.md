@@ -1,8 +1,8 @@
-# Madhva Budget Pro
+# Financial Planner Pro
 
 A comprehensive personal finance management application specifically designed for Sparkasse bank customers in Germany. Features automatic parsing of German Sparkasse bank statements with English translation, AI-powered transaction categorization, budgeting tools, and rich financial analytics, all within a beautiful Adobe-inspired interface optimized for readability and professional use.
 
-<img src="logo.png" alt="Madhva Budget Pro Logo" width="120"/>
+<img src="logo.png" alt="Financial Planner Pro Logo" width="120"/>
 
 ## Quick Start Guide
 
@@ -31,7 +31,7 @@ The dashboard provides a comprehensive overview of your financial situation with
 
 ## New Adobe-Inspired Design System
 
-Madhva Budget Pro has been completely redesigned with an Adobe-inspired design system that enhances readability, visual organization, and professional appearance. The new UI features:
+Financial Planner Pro has been completely redesigned with an Adobe-inspired design system that enhances readability, visual organization, and professional appearance. The new UI features:
 
 - **Clean Visual Hierarchy**: Improved typography and spacing for better information scanning
 - **Card-Based Layout**: Content organization with clear visual boundaries
@@ -85,7 +85,7 @@ Madhva Budget Pro has been completely redesigned with an Adobe-inspired design s
 
 ### Prerequisites
 
-Before installing Madhva Budget Pro, ensure you have:
+Before installing Financial Planner Pro, ensure you have:
 
 - **Python 3.9 or newer** installed on your system
 - **pip** (Python package manager)
@@ -102,7 +102,7 @@ Before installing Madhva Budget Pro, ensure you have:
 #### Option 1: Direct Download (Recommended)
 
 1. **Download the latest version**:
-   - Visit [GitHub Releases](https://github.com/Madhva8/madhva-budget-pro/releases)
+   - Visit the GitHub Releases page
    - Download the version for your operating system
 
 2. **Launch the application**:
@@ -114,8 +114,8 @@ Before installing Madhva Budget Pro, ensure you have:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/Madhva8/madhva-budget-pro.git
-   cd madhva-budget-pro
+   git clone https://github.com/username/financial-planner-pro.git
+   cd financial-planner-pro
    ```
 
 2. **Run the application launcher for your platform**:
@@ -257,7 +257,7 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 ---
 
-Developed with ❤️ by Madhva
+Developed with ❤️ by the Financial Planner Pro Team
 
 ## Usage
 

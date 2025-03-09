@@ -1,6 +1,6 @@
-# Madhva Budget Pro - Launch Guide
+# Financial Planner Pro - Launch Guide
 
-This guide provides detailed instructions on how to run Madhva Budget Pro on different operating systems without using an IDE.
+This guide provides detailed instructions on how to run Financial Planner Pro on different operating systems without using an IDE.
 
 ## Quick Start
 
@@ -8,19 +8,19 @@ For the simplest launch experience, use the provided launcher scripts:
 
 ### macOS
 
-1. **Open Finder** and navigate to your Madhva Budget Pro folder
-2. **Double-click** `SimpleStart.command`
+1. **Open Finder** and navigate to your Financial Planner Pro folder
+2. **Double-click** `FinancialPlanner.command`
 3. If you see a security warning, right-click the file and select "Open" instead
 
 ### Windows
 
-1. **Open File Explorer** and navigate to your Madhva Budget Pro folder
+1. **Open File Explorer** and navigate to your Financial Planner Pro folder
 2. **Double-click** `start_app.bat`
 3. The script will automatically check for Python, install dependencies if needed, and even create a desktop shortcut
 
 ### Linux
 
-1. **Open Terminal** in your Madhva Budget Pro folder
+1. **Open Terminal** in your Financial Planner Pro folder
 2. Run `./start_app.sh`
 
 ## Troubleshooting
@@ -65,7 +65,7 @@ If you see database errors:
 ### macOS
 
 1. Open Finder and navigate to your application folder
-2. Right-click on `SimpleStart.command` and select "Make Alias"
+2. Right-click on `FinancialPlanner.command` and select "Make Alias"
 3. Move the alias to your Desktop or Applications folder
 
 ### Windows
@@ -79,7 +79,7 @@ The `start_app.bat` script will automatically create a desktop shortcut for you 
    ```
    C:\path\to\Financial_planner\start_app.bat
    ```
-3. Name the shortcut "Madhva Budget Pro" and click Finish
+3. Name the shortcut "Financial Planner Pro" and click Finish
 
 ### Linux
 
@@ -87,8 +87,8 @@ The `start_app.bat` script will automatically create a desktop shortcut for you 
    ```
    [Desktop Entry]
    Type=Application
-   Name=Madhva Budget Pro
-   Exec=bash -c "cd /path/to/Financial_planner && ./SimpleStart.command"
+   Name=Financial Planner Pro
+   Exec=bash -c "cd /path/to/Financial_planner && ./run_app.sh"
    Icon=/path/to/Financial_planner/logo.png
    Terminal=false
    ```

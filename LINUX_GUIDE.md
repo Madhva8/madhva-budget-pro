@@ -1,6 +1,6 @@
-# Madhva Budget Pro - Linux Installation Guide
+# Financial Planner Pro - Linux Installation Guide
 
-This guide provides step-by-step instructions for installing and running Madhva Budget Pro on Linux systems.
+This guide provides step-by-step instructions for installing and running Financial Planner Pro on Linux systems.
 
 ## Supported Distributions
 
@@ -26,23 +26,23 @@ sudo apt install python3 python3-pip python3-venv python3-tk git
 sudo dnf install python3 python3-pip python3-tkinter git
 ```
 
-### Step 2: Download Madhva Budget Pro
+### Step 2: Download Financial Planner Pro
 
 #### Option 1: Using Git (Recommended)
 ```bash
-git clone https://github.com/Madhva8/madhva-budget-pro.git
-cd madhva-budget-pro
+git clone https://github.com/username/financial-planner-pro.git
+cd financial-planner-pro
 ```
 
 #### Option 2: Direct Download
-1. Go to [github.com/Madhva8/madhva-budget-pro](https://github.com/Madhva8/madhva-budget-pro)
+1. Go to the GitHub repository
 2. Click the green "Code" button
 3. Select "Download ZIP"
 4. Extract the ZIP file to your home directory or preferred location
 
 ### Step 3: Run the Application
 
-1. Open a terminal in the madhva-budget-pro directory
+1. Open a terminal in the financial-planner-pro directory
 2. Make the launcher executable:
    ```bash
    chmod +x run_app.sh
@@ -95,10 +95,10 @@ To create a desktop shortcut:
 
 1. Create a .desktop file:
 ```bash
-cat > ~/Desktop/MadhvaBudgetPro.desktop << EOL
+cat > ~/Desktop/FinancialPlannerPro.desktop << EOL
 [Desktop Entry]
 Type=Application
-Name=Madhva Budget Pro
+Name=Financial Planner Pro
 Comment=Financial Management Application
 Exec=$(pwd)/run_app.sh
 Icon=$(pwd)/logo.png
@@ -109,7 +109,7 @@ EOL
 
 2. Make it executable:
 ```bash
-chmod +x ~/Desktop/MadhvaBudgetPro.desktop
+chmod +x ~/Desktop/FinancialPlannerPro.desktop
 ```
 
 ## Back Up Your Data
@@ -124,4 +124,4 @@ cp financial_planner.db ~/Documents/financial_planner_$(date +%Y%m%d).db
 If you encounter issues:
 1. Check the main [README.md](README.md) file
 2. Visit the GitHub repository for updates
-3. Report issues on the [GitHub issues page](https://github.com/Madhva8/madhva-budget-pro/issues)
+3. Report issues on the [GitHub issues page](https://github.com/username/financial-planner-pro/issues)

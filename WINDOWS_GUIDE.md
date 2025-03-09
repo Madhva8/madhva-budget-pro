@@ -1,6 +1,6 @@
-# Madhva Budget Pro - Windows Installation Guide
+# Financial Planner Pro - Windows Installation Guide
 
-This guide provides step-by-step instructions for installing and running Madhva Budget Pro on Windows systems.
+This guide provides step-by-step instructions for installing and running Financial Planner Pro on Windows systems.
 
 ## Installation Requirements
 
@@ -18,7 +18,7 @@ This guide provides step-by-step instructions for installing and running Madhva 
 3. **IMPORTANT**: Check the box "Add Python to PATH" during installation
 4. Click "Install Now"
 
-### Step 2: Download Madhva Budget Pro
+### Step 2: Download Financial Planner Pro
 
 #### Option 1: Using Git (Recommended)
 
@@ -28,20 +28,20 @@ This guide provides step-by-step instructions for installing and running Madhva 
 
 ```
 cd C:\Users\YourUsername\Documents
-git clone https://github.com/Madhva8/madhva-budget-pro.git
-cd madhva-budget-pro
+git clone https://github.com/username/financial-planner-pro.git
+cd financial-planner-pro
 ```
 
 #### Option 2: Direct Download
 
-1. Go to [github.com/Madhva8/madhva-budget-pro](https://github.com/Madhva8/madhva-budget-pro)
+1. Go to the GitHub repository
 2. Click the green "Code" button
 3. Select "Download ZIP"
 4. Extract the ZIP file to a location you can easily find (e.g., Documents folder)
 
 ### Step 3: Run the Application
 
-1. Navigate to the Madhva Budget Pro folder in File Explorer
+1. Navigate to the Financial Planner Pro folder in File Explorer
 2. **Double-click** the file named `start_app.bat` or `run_app.bat`
 
 That's it! The application will:
@@ -66,7 +66,7 @@ If the script reports missing modules:
 1. Open Command Prompt as Administrator
 2. Navigate to your application folder:
    ```
-   cd C:\path\to\madhva-budget-pro
+   cd C:\path\to\financial-planner-pro
    ```
 3. Install dependencies manually:
    ```
@@ -92,7 +92,7 @@ It's a good practice to back up your financial data regularly:
 
 ## Uninstalling
 
-To remove Madhva Budget Pro:
+To remove Financial Planner Pro:
 1. Delete the application folder
 2. Delete the desktop shortcut
 
@@ -103,4 +103,4 @@ No registry entries or system files are modified by the application.
 If you encounter any issues, please:
 1. Check the main [README.md](README.md) file
 2. Visit the GitHub repository for updates
-3. Report issues on the [GitHub issues page](https://github.com/Madhva8/madhva-budget-pro/issues)
+3. Report issues on the GitHub repository
