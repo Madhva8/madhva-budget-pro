@@ -254,11 +254,21 @@ fi
 # Run the application with all necessary settings
 echo "🚀 Launching Financial Planner Pro..."
 
-# Set environment variables
-export PYTHONPATH="$APP_DIR"
+# Set environment variables - CRITICAL for UI component paths
+export PYTHONPATH="$APP_DIR:$APP_DIR/src"
 export OS_MODULE_FIX="1"
 export FINANCIAL_PLANNER_APP_ENV="production"
 export TOUCHID_ENABLED="1"
+export PYTHONIOENCODING="utf-8"
+export MODERN_UI_ENABLED="1"
+export FINANCIAL_PLANNER_DEBUG="1"
+export TEMPLATE_PATH="$APP_DIR/src/ui"
+
+# Fix path to help matplotlib find its data files
+export MATPLOTLIBDATA="$APP_DIR/venv/lib/python3.8/site-packages/matplotlib/mpl-data"
+
+# This ensures PyQt/PySide can find the right display
+export QT_QPA_PLATFORM_PLUGIN_PATH="$APP_DIR/venv/lib/python3.8/site-packages/PySide6/plugins/platforms"
 
 # Determine the main script to run
 MAIN_SCRIPT=""
@@ -279,27 +289,49 @@ echo "▶️ Running: $MAIN_SCRIPT"
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # For macOS: Try different methods to run the app with proper GUI support
     
-    # Method 1: Direct Python execution with environment variables
-    echo "▶️ Launching application directly..."
-    python3 "$MAIN_SCRIPT"
+    # Check if we have a virtual environment and prefer it
+    if [ -d "$APP_DIR/venv/bin" ]; then
+        PYTHON_CMD="$APP_DIR/venv/bin/python3"
+        echo "Using virtual environment Python: $PYTHON_CMD"
+    else
+        PYTHON_CMD="python3"
+        echo "Using system Python: $PYTHON_CMD"
+    fi
     
-    # If we get here, the app didn't stay running, so try alternative launch method
-    if [ $? -ne 0 ]; then
-        echo "⚠️ Direct launch failed, trying alternative launch method..."
-        
-        # Create a temporary launcher script
-        TEMP_LAUNCHER=$(mktemp)
-        cat > "$TEMP_LAUNCHER" << EOF
+    # Create a robust launcher script with all necessary environment variables
+    TEMP_LAUNCHER=$(mktemp)
+    cat > "$TEMP_LAUNCHER" << EOF
 #!/bin/bash
+# Change to the application directory
 cd "$APP_DIR"
-export PYTHONPATH="$APP_DIR"
+
+# Set up all required environment variables
+export PYTHONPATH="$APP_DIR:$APP_DIR/src"
 export OS_MODULE_FIX="1"
 export FINANCIAL_PLANNER_APP_ENV="production"
 export TOUCHID_ENABLED="1"
 export TOUCHID_PREAUTH="1"
+export PYTHONIOENCODING="utf-8"
+export MODERN_UI_ENABLED="1"
+export FINANCIAL_PLANNER_DEBUG="1"
+export TEMPLATE_PATH="$APP_DIR/src/ui"
+
+# Fix paths for matplotlib and PySide6
+export MATPLOTLIBDATA="$APP_DIR/venv/lib/python3.8/site-packages/matplotlib/mpl-data"
+export QT_QPA_PLATFORM_PLUGIN_PATH="$APP_DIR/venv/lib/python3.8/site-packages/PySide6/plugins/platforms"
+
+# Check for Python interpreter in virtual environment
+if [ -f "$APP_DIR/venv/bin/python3" ]; then
+    PYTHON="$APP_DIR/venv/bin/python3"
+else
+    PYTHON="python3"
+fi
+
+echo "Launching Financial Planner Pro with \$PYTHON"
+echo "Main script: $MAIN_SCRIPT"
 
 # Run with Python's -u flag for unbuffered output
-python3 -u "$MAIN_SCRIPT"
+\$PYTHON -u "$MAIN_SCRIPT"
 
 # Keep terminal open if there was an error
 if [ \$? -ne 0 ]; then
@@ -307,25 +339,78 @@ if [ \$? -ne 0 ]; then
     read -p ""
 fi
 EOF
-        chmod +x "$TEMP_LAUNCHER"
-        
-        # Run the application in a new Terminal window
+    chmod +x "$TEMP_LAUNCHER"
+    
+    # Run the temporary launcher script
+    echo "▶️ Launching application with all required paths and environment variables..."
+    "$TEMP_LAUNCHER"
+    
+    # If direct execution fails, try opening in a new terminal window
+    if [ $? -ne 0 ]; then
+        echo "⚠️ Direct execution failed, opening in a new terminal window..."
         open -a Terminal.app "$TEMP_LAUNCHER"
     fi
+    
 else
     # Standard execution for other platforms
-    python3 "$MAIN_SCRIPT"
+    if [ -d "$APP_DIR/venv/bin" ]; then
+        "$APP_DIR/venv/bin/python3" "$MAIN_SCRIPT"
+    else
+        python3 "$MAIN_SCRIPT"
+    fi
 fi
 
 # Check exit status
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ]; then
     echo "❌ Application exited with code: $EXIT_CODE"
-    if [[ "$OSTYPE" == "darwin"* ]] && command -v osascript &> /dev/null; then
-        osascript -e 'display dialog "The application exited unexpectedly. Please check the logs for details." buttons {"OK"} default button "OK" with icon caution with title "Application Error"'
+    
+    # Check for common error causes and provide specific guidance
+    if grep -q "ImportError: No module named" "$APP_DIR/logs/financial_planner.log" 2>/dev/null; then
+        echo "💡 Missing dependency detected. Try installing required packages:"
+        echo "   $PYTHON_CMD -m pip install -r requirements.txt"
+        
+        if [[ "$OSTYPE" == "darwin"* ]] && command -v osascript &> /dev/null; then
+            osascript -e 'display dialog "Missing Python dependency detected. Please run:\npip install -r requirements.txt" buttons {"OK"} default button "OK" with icon caution with title "Missing Dependency"'
+        fi
+    elif grep -q "ModuleNotFoundError: No module named" "$APP_DIR/logs/financial_planner.log" 2>/dev/null; then
+        echo "💡 Python module not found. Try installing required packages:"
+        echo "   $PYTHON_CMD -m pip install -r requirements.txt"
+        
+        if [[ "$OSTYPE" == "darwin"* ]] && command -v osascript &> /dev/null; then
+            osascript -e 'display dialog "Python module not found. Please run:\npip install -r requirements.txt" buttons {"OK"} default button "OK" with icon caution with title "Module Not Found"'
+        fi
+    elif grep -q "no such table:" "$APP_DIR/logs/financial_planner.log" 2>/dev/null; then
+        echo "💡 Database issue detected. Try resetting the database:"
+        echo "   cp $APP_DIR/financial_planner.db.sample $APP_DIR/financial_planner.db"
+        
+        if [[ "$OSTYPE" == "darwin"* ]] && command -v osascript &> /dev/null; then
+            osascript -e 'display dialog "Database issue detected. The database may be corrupted.\n\nTry restoring from the sample database." buttons {"OK"} default button "OK" with icon caution with title "Database Error"'
+        fi
     else
-        echo "The application exited unexpectedly. Please check the logs for details."
+        # Generic error message
+        if [[ "$OSTYPE" == "darwin"* ]] && command -v osascript &> /dev/null; then
+            osascript -e 'display dialog "The application exited unexpectedly. Please check the logs for details." buttons {"OK"} default button "OK" with icon caution with title "Application Error"'
+        else
+            echo "The application exited unexpectedly. Please check the logs for details."
+        fi
     fi
+    
+    # Create logs directory if it doesn't exist
+    mkdir -p "$APP_DIR/logs"
+    
+    # Capture environment info for debugging
+    echo "--- Environment Information ---" > "$APP_DIR/logs/environment_info.log"
+    echo "Date: $(date)" >> "$APP_DIR/logs/environment_info.log"
+    echo "OS: $(uname -a)" >> "$APP_DIR/logs/environment_info.log"
+    echo "Python: $($PYTHON_CMD --version 2>&1)" >> "$APP_DIR/logs/environment_info.log"
+    echo "PYTHONPATH: $PYTHONPATH" >> "$APP_DIR/logs/environment_info.log"
+    echo "Working directory: $(pwd)" >> "$APP_DIR/logs/environment_info.log"
+    echo "Main script: $MAIN_SCRIPT" >> "$APP_DIR/logs/environment_info.log"
+    echo "--------------------------" >> "$APP_DIR/logs/environment_info.log"
+    
+    echo "Environment information saved to logs/environment_info.log"
+    
     exit $EXIT_CODE
 fi
 
